@@ -6,9 +6,6 @@ services:
       dockerfile: Dockerfile
     image: ${COMPOSE_PROJECT_IMGK}
     container_name: "${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}"
-    ports:
-      - "${COMPOSE_PROJECT_PORT:-1025}:1025"     # SMTP port — send your app mails here
-      - "${COMPOSE_PROJECT_APP_PORT:-8025}:8025" # Web UI + API
     restart: unless-stopped
     deploy:
       resources:

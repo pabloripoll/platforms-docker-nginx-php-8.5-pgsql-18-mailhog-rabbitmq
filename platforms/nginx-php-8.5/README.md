@@ -4,7 +4,7 @@
 
 - [./back](../../README.md)
 - [Container Specifications](#specifications)
-- [Container Installation](#container)
+- [Container Configuration](#container)
 - [Container Management](#management)
 <br>
 
@@ -39,12 +39,26 @@ Before using containers from this repository in any production environment:
 - **Document** any modifications made for your specific use case
 <br><br>
 
-## <a id="container"></a>Container Installation
+## <a id="container"></a>Container Configuration
 
-Before building the container:
+### Containers Access Modes
 
-- If no PHP app is on `./apirest` *(Or your custom binded directory)*, It would be better to copy the example on it.
-- set the required configuration files by copinf and updating them depending on your project in:
+- If no application is on `./apirest` directory *(or your custom binded directory name)* once container is up it wont provide a application and therefore NGINX will respond with an error. Copy an start-up example application or create a parking page.
+- Set the required environment values in `./docker/.env` from `./docker/.env.example` if no GNU Make will be applied.
+- Set the required configuration files by coping and updating them depending on your project requirements.
+- Container availability by building the container with `docker-composer.yml` in separated configuration layers
+    - Stand-alone
+        - The container is intended to be published directly and accessed from the host network, typically via `0.0.0.0:<port>`. It does not require a shared Docker network. It is a common setting for local development.
+    - Inside a Custom Network
+        - The container is attached to a custom Docker network and is intended to be accessed through a reverse proxy or other containers on the same network. This is useful for isolating services while still allowing container-to-container communication. It is a recommended setting for remote deployment.
+    - Host-Gateway
+        - The container can reach services running on the host machine using the Docker host gateway mapping. This is useful when the container must access local services on the VPS/host, while public access is still handled through a reverse proxy. It is a recommended setting for remote deployment too.
+    - Public exposure is controlled by the `ports` mapping.
+    - `0.0.0.0:<port>` means externally accessible.
+    - `127.0.0.1:<port>` means local-only access on the host and requires a reverse proxy, e.g. NGINX.
+    - Docker network attachment controls container-to-container communication.
+    - Host-gateway controls container-to-host communication.
+<br>
 
 ### Dockerfile
 
@@ -100,9 +114,11 @@ $ make env                            checks if docker .env file exists
 $ make env-set                        sets docker .env file
 $ make info                           shows container information
 $ make ssh                            enters the container shell
-$ make build                          builds the container from Dockerfile
-$ make up                             attaches to containers for a service and also starts any linked services
-$ make start                          starts the container and put on running
+$ make up                             starts and recreates containers if compose config or image changed, runnning in detached mode
+$ make build                          builds and ensures changes in the Dockerfile, build steps, or copied-in files are applied. Not --no-recreate
+$ make network                        starts up into an existing custom network for container-to-container communication, runnning in detached mode
+$ make host-gateway                   starts up for container-to-host communication, runnning in detached mode
+$ make start                          starts the container and put on running from latest configuration
 $ make stop                           stops the running container but data will not be destroyed
 $ make restart                        restarts the running container
 $ make clear                          removes container from Docker running containers

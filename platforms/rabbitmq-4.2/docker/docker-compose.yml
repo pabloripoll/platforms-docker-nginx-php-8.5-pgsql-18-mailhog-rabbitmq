@@ -1,16 +1,13 @@
 services:
 
   rabbitmq:
-    image: ${COMPOSE_PROJECT_IMGK}
+    image: rabbitmq:4.2-management-alpine
     container_name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}
     environment:
       - RABBITMQ_DEFAULT_USER=${COMPOSE_PROJECT_APP_USER}
       - RABBITMQ_DEFAULT_PASS=${COMPOSE_PROJECT_APP_PASS}
       - RABBITMQ_NODENAME=${COMPOSE_PROJECT_APP_NODENAME}
       - RABBITMQ_ERLANG_COOKIE=${COMPOSE_PROJECT_APP_COOKIE}
-    ports:
-      - ${COMPOSE_PROJECT_PORT}:5672 # AMQP
-      - ${COMPOSE_PROJECT_APP_PORT}:15672 # Management UI
     deploy:
       resources:
         limits:
@@ -19,4 +16,5 @@ services:
         - ../data/:/var/lib/rabbitmq/
         - ../log/:/var/log/rabbitmq
         - ./config/conf.d/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+    tty: true
     restart: unless-stopped

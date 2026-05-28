@@ -3,8 +3,6 @@ services:
   pgsql:
     image: postgres:18.2-alpine3.23
     container_name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}
-    ports:
-      - ${COMPOSE_PROJECT_PORT}:5432
     deploy:
       resources:
         limits:

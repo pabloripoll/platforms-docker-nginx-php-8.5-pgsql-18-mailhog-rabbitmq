@@ -1,4 +1,3 @@
-# .gitignore custom settings
 .env
 /data/*
 !/data/.gitkeep

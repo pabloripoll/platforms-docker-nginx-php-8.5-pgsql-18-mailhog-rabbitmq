@@ -29,7 +29,6 @@ DOCKER_IMGK=$(BROKER_IMGK)
 DOCKER_PORT=$(BROKER_PORT)
 DOCKER_BIND=$(BROKER_BIND)
 DOCKER_CAAS=$(BROKER_CAAS)
-DOCKER_CPUS=$(APIREST_CAAS_CPUS)
 DOCKER_CAAS_MEM=$(BROKER_CAAS_MEM)
 DOCKER_CAAS_SWAP=$(BROKER_CAAS_SWAP)
 DOCKER_APP_PORT=$(BROKER_APP_PORT)
@@ -101,7 +100,6 @@ else
 	COMPOSE_PROJECT_APP_NODENAME=\"$(DOCKER_APP_NODENAME)\"" > ./docker/.env; \
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - "${C_YEL}"docker-compose.yml"${C_END}" .env file "${C_GRN}"has been set."${C_END};
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - Container: "${C_GRN}$(DOCKER_CONTAINER)${C_END}
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. CPUs: "${C_GRN}$(DOCKER_CPUS)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. memory usage: "${C_GRN}$(DOCKER_CAAS_MEM)${C_END}" - swap: "${C_GRN}$(DOCKER_CAAS_SWAP)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - AMQP is served at: http://"${C_GRN}$(word 1,$(shell hostname -I)):$(DOCKER_PORT)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - APP is served at: http://127.0.0.1:"${C_GRN}$(DOCKER_APP_PORT)${C_END}
@@ -126,13 +124,16 @@ info: ## shows container information
 ssh: ## enters the container shell
 	$(DOCKER_EXEC_SSH)
 
-build: ## builds the container from Dockerfile
-	cd docker && $(DOCKER_COMPOSE) up --build --no-recreate -d
+up: ## starts and recreates containers if compose config or image changed, runnning in detached mode
+	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.public.yml up -d
 
-up: ## attaches to containers for a service and also starts any linked services
-	cd docker && $(DOCKER_COMPOSE) up -d
+build: ## builds and ensures changes in the Dockerfile, build steps, or copied-in files are applied. Not --no-recreate
+	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.public.yml up --build -d
 
-start: ## starts the container and put on running
+network: ## starts up into an existing custom network for container-to-container communication, runnning in detached mode
+	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml up -d
+
+start: ## starts the container and put on running from latest configuration
 	cd docker && $(DOCKER_COMPOSE) start
 
 stop: ## stops the running container but data won't be destroyed
@@ -152,6 +153,3 @@ destroy: ## delete container image from Docker cache
 
 dev: ## sets a development enviroment
 	echo ${C_YEL}"\"dev\" recipe has not usage in this project"${C_END};
-
-network:
-	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml up -d
