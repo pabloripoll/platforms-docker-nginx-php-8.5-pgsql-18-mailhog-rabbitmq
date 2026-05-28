@@ -4,7 +4,7 @@
 
 - [./back](../../README.md)
 - [Container Specifications](#specifications)
-- [Container Configuration](#container)
+- [Container Configuration](#container-configuration)
 - [Container Management](#management)
 <br>
 
@@ -39,7 +39,7 @@ Before using containers from this repository in any production environment:
 - **Document** any modifications made for your specific use case
 <br><br>
 
-## <a id="container"></a>Container Configuration
+## <a id="container-configuration"></a>Container Configuration
 
 ### Containers Access Modes
 
@@ -64,7 +64,7 @@ Before using containers from this repository in any production environment:
 
 You might be using this repository with different databases connection. Copy from Alpine or Debian samples and set the correct packages and modules required by commenting them out, and others not required is recommended to be commented. In this way, the container will be built only with the neccessary settings an in less time
 
-- `./docker/Dockerfile.sample` -> `./docker/Dockerfile`
+- `./docker/Dockerfile.Alpine` -> `./docker/Dockerfile`
 
 ### NGINX
 
@@ -76,7 +76,7 @@ The default example is a server block for a REST API, but it can be use for weba
 
 These are the default PHP settings. Copy them all with the proper configuration required for your project
 
-- `./docker/config/nginx/conf.d-sample/fpm-pool.conf` -> `./docker/config/nginx/conf.d/fpm-pool.conf`
+- `./docker/config/php/conf.d-sample/fpm-pool.conf` -> `./docker/config/php/conf.d/fpm-pool.conf`
 - `./docker/config/php/conf.d-sample/php.ini` -> `./docker/config/php/conf.d/php.ini`
 
 ```bash
@@ -88,6 +88,7 @@ To automatically run the PHP application, create the Supervisord service that ru
 
 - `./docker/config/supervisor/conf.d-sample/php-fpm.conf` -> `./docker/config/supervisor/conf.d/php-fpm.conf`
 
+Then, update Supervisor service if neccessary
 ```bash
 [program:php-fpm]
 command=php-fpm85 -F
