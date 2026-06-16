@@ -2,7 +2,7 @@ services:
 
   pgsql:
     ports:
-      - 127.0.0.1:${COMPOSE_PROJECT_PORT}:5432
+      - ${COMPOSE_PROJECT_HOST}:${COMPOSE_PROJECT_PORT}:5432
     networks:
       net: {}
 
