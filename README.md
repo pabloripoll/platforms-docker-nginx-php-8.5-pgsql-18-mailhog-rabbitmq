@@ -2,38 +2,66 @@
     <img src="./resources/docs/images/pr-banner-long.png">
 </div>
 
-# INFRASTRUCTURE PLATFORMS FOR PHP 8.5
+# INFRASTRUCTURE PLATFORMS
 
 [![Generic badge](https://img.shields.io/badge/version-1.0-blue.svg)](https://shields.io/)
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](./)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-This Infrastructure Platform repository is designed for back-end projects and provides separate platforms:
+# PHP 8.5 + MariaDB 10.11 + MailHog 1.0 + RabbitMQ 4.2
+<br>
 
-- **REST API Platform:** Linux Alpine version 3.23 + NGINX version 1.28 *(or latest by APK)* + PHP 8.5
-- **Core Database Platform:** Linux Alpine version 3.23 + Postgres 18.2
-- **Mail Service Platform:** Linux Alpine version 3.12 + Mailhog 1.0
-- **Message Broker Platform:** RabbitMQ 4.2 *(editable version)*
+This Infrastructure Platform repository is designed for back-end projects and provides three separate platforms:
 
-The goal of this repository is to offer developers a consistent framework for local development, mirroring real-world deployment scenarios. In production, the API may be deployed on an AWS EC2 / GCP GCE or instance or distributed across Kubernetes pods, while the database would reside on an AWS RDS instance. thus, network connection between platforms are decoupled.
+## Platforms for Full-Stack Project
 
-Platform engineering is the discipline of creating and managing an internal developer platform (IDP) to provide developers with self-service tools, automated workflows, and standardized environments. By reducing cognitive load and complexity, it allows software engineering teams to innovate faster and more efficiently, building on the principles of DevOps. The IDP acts like a product, where developers are customers, and aims to streamline the entire software development lifecycle, from building and testing to deploying and monitoring.
+- API: [NGINX + PHP 8.5](./platforms/nginx-php-8.5/README.md)
+- Database: [Postgres 18.2](./platforms/pgsql-18.2/README.md)
+- Mail Service: [Mail Hog 1.0](./platforms/mailhog-1.0/README.md)
+- Message Broker: [RabbitMQ 4.2](./platforms/rabbitmq-4.2/README.md)
+<br><br>
+
+
+## Index
+
+- [Repository Objetives](#repository-objetives)
+- [Requirements](#requirements)
+- [Containers Networking](#container-networking)
+- [Requirements](#requirements)
+- [Containers Networking](containers-networking)
+- [Platforms Settings](#platforms-setup)
+- [Platform Start Up](#platforms-startup)
+- [Using this Repository for Custom Project](#platform-usage)
+<br><br>
+
+## <a id="repository-objetives"></a>Repositoy Objetives
 
 ### Key principles and goals
 
-- Self-service: Provide developers with easy-to-use tools and automated workflows to manage their own infrastructure needs without having to file tickets or rely on other teams.
-- Standardization: Use standardized tools and environments to ensure consistency, reliability, and security across projects.
-- Reduced cognitive load: Abstract away underlying complexity so developers can focus on writing code and delivering business value rather than managing infrastructure details.
-- Developer experience: Build a positive and productive environment for developers, making them feel empowered and less frustrated.
-- Operational efficiency: Automate repetitive tasks and standardize processes to improve the speed and reliability of software delivery.
+This repository provides a consistent framework for local development that mirrors production environments. In production, APIs run on cloud instances (AWS, Azure, GCP) or Kubernetes pods. Meanwhile, the database layer resides on managed services like AWS RDS, Azure Database, or GCP Cloud SQL, utilizing Multi-AZ deployments for high availability and read replicas to scale performance. This structure ensures network connections between application and database tiers remain decoupled.
+
+By leveraging Platform Engineering principles, this project reduces cognitive load for developers. It treats the Internal Developer Platform (IDP) as a product, offering self-service tools and automated workflows. This streamlines the entire lifecycle—from building to monitoring—allowing teams to innovate faster.
+
+- **Self-service:** Provide developers with easy-to-use tools and automated workflows to manage their own infrastructure needs without having to file tickets or rely on other teams.
+
+- **Standardization:** Use standardized tools and environments to ensure consistency, reliability, and security across projects.
+
+- **Reduced cognitive load:** Abstract away underlying complexity so developers can focus on writing code and delivering business value rather than managing infrastructure details.
+
+- **Developer experience:** Build a positive and productive environment for developers, making them feel empowered and less frustrated.
+
+- **Operational efficiency:** Automate repetitive tasks and standardize processes to improve the speed and reliability of software delivery.
 
 ### How it works
 
 - Internal Developer Platform (IDP): A dedicated platform built by the platform engineering team that provides a curated set of tools, services, and infrastructure.
-- Golden Paths: Predefined, optimized workflows and best practices that developers can follow to accomplish common tasks quickly and easily.
-- Treating the platform as a product: Platform engineers treat their IDP like a product, with developers as their customers, to ensure it meets the needs of the organization.
 
-### Documentation:
+- Golden Paths: Predefined, optimized workflows and best practices that developers can follow to accomplish common tasks quickly and easily.
+
+- Treating the platform as a product: Platform engineers treat their IDP like a product, with developers as their customers, to ensure it meets the needs of the organization.
+<br>
+
+### Read more:
 
 - [What is platform engineering? - IBM](https://www.ibm.com/think/topics/platform-engineering)
 - [Understanding platform engineering - Red Hat](https://www.redhat.com/en/topics/platform-engineering)
@@ -43,7 +71,26 @@ Platform engineering is the discipline of creating and managing an internal deve
 - [What is Platform engineering? - Github](https://github.com/resources/articles/what-is-platform-engineering)
 <br><br>
 
-## <a id="container-access-mode"></a>Containers Access Modes
+## <a id="requirements"></a>Requirements
+
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![gnu](https://img.shields.io/badge/gnu-%23A42E2B.svg?style=for-the-badge&logo=gnu&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+Despite Docker’s cross-platform compatibility, for intermediate to advanced software development on environments other than Windows NT or macOS, automating the platform build and streamlining the process of starting feature development is crucial. This automation enables a more dynamic and efficient software development lifecycle.
+
+- Docker
+- Docker Compose
+- GNU Make *(otherwise commands must be executed manually)*
+
+| Dev machine   | Machine's features                                                                            |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| CPU           | Linux *(x64 - x86)* /  MacOS Intel *(x64 - x86)*, or M1                                       |
+| RAM           | *(for this container)*: 128 MB minimum.                                                       |
+| DISK          | 1 GB *(though is much less, its usage could be incremented depending on the project usage)*.  |
+<br>
+
+## <a id="containers-networking"></a>Containers Networking - Access Modes
 
 - If no application is on `./apirest` directory *(or your custom binded directory name)* once container is up it wont provide a application and therefore NGINX will respond with an error. Copy an start-up example application or create a parking page.
 
@@ -55,7 +102,10 @@ Platform engineering is the discipline of creating and managing an internal deve
     - Stand-alone
         - The container is intended to be published directly and accessed from the host network, typically via `0.0.0.0:<port>`. It does not require a shared Docker network. It is a common setting for local development.
     - Inside a Custom Network
-        - The container is attached to a custom Docker network and is intended to be accessed through a reverse proxy or other containers on the same network. This is useful for isolating services while still allowing container-to-container communication. It is a recommended setting for remote deployment.
+        - The container is attached to a custom Docker network and is intended to be accessed through a reverse proxy or other containers on the same network.
+        - This network setting is useful for isolating services while still allowing container-to-container communication.
+        - It is a strongly recommended setting for remote deployment to avoid exposing the localhost port in used and protect by firewall.
+        - <b>Connect from one container to another inside the custom network, by container name and its own exposed port</b>.
     - Host-Gateway
         - The container can reach services running on the host machine using the Docker host gateway mapping. This is useful when the container must access local services on the VPS/host, while public access is still handled through a reverse proxy. It is a recommended setting for remote deployment too.
     - Public exposure is controlled by the `ports` mapping.
@@ -65,101 +115,154 @@ Platform engineering is the discipline of creating and managing an internal deve
     - Host-gateway controls container-to-host communication.
 <br><br>
 
-## <a id="platform-usage"></a>Use this Platform Repository for your own REST API repositories
+## <a id="platforms-setup"></a>Configure Platforms
 
-Platform Documentation:
+Create the root `./.env` file from the [./.env.example](./.env.example) and follow its description to configure the platforms. Each variable has its own explanation.
 
-- [NGINX + PHP 8.5](./platform/nginx-php-8.5/README.md)
+Also create the root `./Makefile` file from [./resources/automation/local/Makefile](./resources/automation/local/Makefile) so it will be easy to manage the platforms from one location in the project.
+
+Each recipe has its own explanation or execute `make help` command to see them all. This streamlines the workflow for managing containers with mnemonic recipe names, avoiding the effort of remembering and typing each bash command line:
+```bash
+$ make help
+```
+
+Once variables set, each Docker platform container environment variables can be set by GNU Make recipes placed in the root of this repository:
+
+- Set up the API container
+  ```bash
+  $ make apirest-set
+  ```
+  **Remember**: *the `./apirest` directory name is custimizable for binding between the container and local machine.*
+
+- Set up the database container
+  ```bash
+  $ make db-set
+  ```
+
+- Set up the mail service container
+  ```bash
+  $ make mailer-set
+  ```
+
+- Set up the message broker service container
+  ```bash
+  $ make broker-set
+  ```
+<br>
+
+## <a id="platforms-startup"></a>Start Up Platforms
+
+Create and start up the API container
+```bash
+$ make apirest-create
+```
+<br>
+
+Testing container visiting localhost with the assigned port, but with no database connection established or failed because of wrong configuration
+<br>
+
+Create and start up the database container
+```bash
+$ make db-create
+```
+<br>
+
+Once database service is up and running, status message will show successful connection
+<br>
+
+Create and start up the mail service container
+```bash
+$ make mailer-create
+```
+<br>
+
+Create and start up the message broker service container
+```bash
+$ make broker-create
+```
+<br>
+
+Test mail service container by clicking "Direct Test MAIL" link
+<br>
+
+Docker information of both cointer up and running
+```bash
+$ sudo docker ps
+```
+<br>
+
+Despite each container can be stop or restarted, they can be stop and destroy both containers simultaneously to clean up locally from Docker generated cache, without affecting other containers running on the same machine.
+```bash
+$ yes | make apirest-destroy db-destroy mailer-destroy broker-destroy
+```
 <br><br>
 
-Repository directories structure overview:
-```bash
+## <a id="platform-usage"></a>Use this Platform Repository for your own REST API repository
+
+Repository directories structure overview
+```sh
 .
-├── apirest         # Core directory binded in Docker main container for back-end
-│   └── ...         # sub-module or detach with the real project respository
+├── apirest                     # detached repository
+│   ├── src
+│   ├── .env
+│   ├── vendor
+│   └── ...etc
 │
-├── platforms
+├── platforms                   # remote infrastructure platforms
+│   ├── nginx-php-8.5
+│   │   ├── docker
+│   │   │   ├── config
+│   │   │   ├── .env
+│   │   │   ├── docker-compose.yml
+│   │   │   └── Dockerfile
+│   │   └── Makefile
+│   │
+│   ├── mariadb-10.11
+│   │   ├── docker
+│   │   │   ├── .env
+│   │   │   ├── docker-compose.yml
+│   │   │   └── ...etc
+│   │   └── Makefile
 │   │
 │   ├── mailhog-1.0
-│   │   ├── Makefile
-│   │   └── docker
-│   │       ├── Dockerfile
-│   │       ├── docker-compose.network.yml
-│   │       └── docker-compose.yml
-│   │
-│   ├── nginx-php-8.5
-│   │   ├── Makefile
-│   │   └── docker
-│   │       ├── Dockerfile
-│   │       ├── config
-│   │       │   ├── crontab
-│   │       │   ├── nginx
-│   │       │   │   ├── conf.d
-│   │       │   │   │   └── default.conf
-│   │       │   │   └── nginx.conf
-│   │       │   ├── php
-│   │       │   │   └── conf.d
-│   │       │   │       ├── fpm-pool.conf
-│   │       │   │       └── php.ini
-│   │       │   └── supervisor
-│   │       │       ├── conf.d
-│   │       │       │   ├── nginx.conf
-│   │       │       │   └── php-fpm.conf
-│   │       │       └── supervisord.conf
-│   │       ├── docker-compose.network.yml
-│   │       ├── docker-compose.yml
-│   │       └── docker-entrypoint.sh
-│   │
-│   ├── pgsql-16.4
-│   │   ├── Makefile
-│   │   └── docker
-│   │       ├── Dockerfile
-│   │       ├── README.md
-│   │       ├── docker-compose-w-data.yml
-│   │       ├── docker-compose.network.yml
-│   │       ├── docker-compose.yml
-│   │       ├── docker-ensure-initdb.sh
-│   │       └── docker-entrypoint.sh
+│   │   ├── docker
+│   │   │   ├── .env
+│   │   │   ├── docker-compose.yml
+│   │   │   └── ...etc
+│   │   └── Makefile
 │   │
 │   └── rabbitmq-4.2
-│       ├── Makefile
-│       └── docker
-│           ├── config
-│           │   ├── conf.d
-│           │   │   └── rabbitmq.conf
-│           ├── docker-compose.network.yml
-│           └── docker-compose.yml
+│       ├── docker
+│       │   ├── .env
+│       │   ├── docker-compose.yml
+│       │   └── ...etc
+│       └── Makefile
 │
-├── resources
-│   ├── apirest         # sub-module or detach with the real project respository
-│   ├── apirest-sample
-│   │   └── ...         # default application to mount on installation
-│   ├── automation
-│   │   ├── local
-│   │   │   ├── Makefile
-│   │   │   └── Makefile.child
-│   │   └── remote
-│   │       └── ...
-│   ├── databases
-│   │   ├── pgsql-backup.sql
-│   │   └── pgsql-init.sql
-│   └── docs
-│       └── images
-│           ├── pr-banner-long.png
-│           └── ...
+├── resources                   # orientative documentation
+│   ├── automation
+│   │   ├── local
+│   │   │   ├── Makefile        # root ./
+│   │   │   └── Makefile.child  # this goes inside ./apirest
+│   │   └── remote
+│   ├── databases
+│   │   ├── example-init.sql
+│   │   └── example-backup.sql
+│   └── docs
+│       └── ...
 │
-├── .env          # Platforms main values applied
-├── .env.example  # Platforms main values example
-├── Makefile      # Automated commands into recipes
+├── .env
+├── Makefile
 └── README.md
 ```
 <br>
 
 Set up platforms
-
-- Copy `.env.example` to `.env` and adjust platforms settings (rest api port, database port, mail service port, container RAM usage, etc.)
-- By configuring the REST API container with e.g. `APIREST_CAAS_MEM=128M` *(CAAS = Container As A Service)*, remember to set the same RAM value into container local configuration files that will be mounted into the container.
+- Copy `.env.example` to `.env` and adjust settings (rest api port, database port, mail service port, container RAM usage, etc.)
 <br>
+
+### Managing the `apirest` Directory: Submodule vs Detached Repository
+
+To remove the `./apirest` directory with the default installation content and install your desired repository inside it, there are two alternatives for managing both the platform and apirest repositories independently:
 
 Here’s a step-by-step guide for using this Platform repository along with your own REST API repository:
 
@@ -167,11 +270,27 @@ Here’s a step-by-step guide for using this Platform repository along with your
 - Install your desired repository inside `./apirest`
 - Choose between Git submodule and detached repository approaches
 
-### Managing the `apirest` Directory: Submodule vs Detached Repository
+#### 1. **GIT Detached Repository (Recommended)**
 
-To remove the default installation content in `./apirest/` directory with and install your repository instead, there are two alternatives for managing both the Platform and REST API repositories independently:
+> Git commands can be executed **whether from inside the container or on the local machine**.
 
-#### 1. **GIT Sub-module**
+- Remove `apirest` from local and git cache:
+  ```bash
+  $ git rm -r --cached -- "apirest/*" ":(exclude)apirest/.gitkeep"
+  $ git clean -fd
+  $ git reset --hard
+  $ git commit -m "maint: apirest directory and its default installation removed"
+  ```
+
+- Clone the desired repository as a detached repository:
+  ```bash
+  $ git clone git@[vcs]:[account]/[repository].git ./apirest
+  ```
+
+- The `./apirest` directory is now an **independent repository**, not tracked as a submodule in your main repo. You can use `git` commands freely inside `apirest` from anywhere.
+<br>
+
+#### 2. **GIT Sub-module**
 
 > Git commands can be executed **only from inside the container**.
 
@@ -179,13 +298,13 @@ To remove the default installation content in `./apirest/` directory with and in
   ```bash
   $ rm -rfv ./apirest/* ./apirest/.[!.]*$
   $ git rm -r --cached apirest
-  $ git commit -m "maint: apirest directory and its default installation removed to detach from platform repository"
+  $ git commit -m "maint: apirest directory and its default installation removed"
   ```
 
 - Add the desired repository as a submodule:
   ```bash
   $ git submodule add git@[vcs]:[account]/[repository].git ./apirest
-  $ git commit -m "maint: apirest added as a git submodule"
+  $ git commit -m "maint: apirest as a git submodule added"
   ```
 
 - To update submodule contents:
@@ -198,27 +317,6 @@ To remove the default installation content in `./apirest/` directory with and in
   ```bash
   $ git submodule update --init --recursive
   ```
-<br>
-
-#### 2. **GIT Detached Repository (Recommended)**
-
-> Git commands can be executed **whether from inside the container or on the local machine**.
-
-- Remove `apirest` from local and git cache:
-  ```bash
-  $ git rm -r --cached -- "apirest/*" ":(exclude)apirest/.gitkeep"
-  $ git clean -fd
-  $ git reset --hard
-  $ git commit -m "Remove apirest directory and its default installation"
-  ```
-
-- Clone the desired repository as a detached repository:
-  ```bash
-  $ git clone git@[vcs]:[account]/[repository].git ./apirest
-  ```
-
-- The `apirest` directory is now an **independent repository**, not tracked as a submodule in your main repo. You can use `git` commands freely inside `apirest` from anywhere.
-<br>
 
 #### **Summary Table**
 
@@ -228,6 +326,7 @@ To remove the default installation content in `./apirest/` directory with and in
 | Detached (rec.)  | Fully independent| Local or container       | Maximum flexibility              |
 
 > **Note**: After new project cloned inside `./apirest`, consider adding `./apirest/.gitkeep` in it to prevent accidental tracking *(especially for detached repository)*.
+<br><br>
 
 <br>
 

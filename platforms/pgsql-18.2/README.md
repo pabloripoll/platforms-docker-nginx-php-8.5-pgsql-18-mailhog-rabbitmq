@@ -3,13 +3,22 @@
 # POSTGRE 18.2
 
 - [./back](../../README.md)
-- [Source](#source)
-- [Container Configuration](#container)
-- [Container Management](#management)
+- [Features](#features)
+- [Configuration](#configuration)
+- [Management](#management)
 <br>
 
-## <a id="source"></a>Source
+## <a id="features"></a>Features
 
+![Alpine Linux](https://img.shields.io/badge/Alpine_Linux-%230D597F.svg?style=for-the-badge&logo=alpine-linux&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/postgresql-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)
+
+Content:
+- Linux Alpine 3.23
+- PostgreSQL 18.2
+<br><br>
+
+Sources:
 - https://github.com/docker-library/postgres
 
 ### Maintained by: [the PostgreSQL Docker Community](https://github.com/docker-library/postgres)
@@ -25,15 +34,46 @@ For more information about the full official images change lifecycle, see [the "
 For outstanding postgres image PRs, check [PRs with the "library/postgres" label on the official-images repository](https://github.com/docker-library/official-images/labels/library%2Fpostgres). For the current "source of truth" for [postgres](https://hub.docker.com/_/postgres/), see [the library/postgres file in the official-images repository](https://github.com/docker-library/official-images/blob/master/library/postgres).
 <br><br>
 
-## <a id="container"></a>Container Configuration
+## <a id="configuration"></a>Service Configuration
 
-Containers Access Modes:
+There is a dedicated GNU Make file and the main Docker directory with the required scripts to build the required platform configuration.
+
+This service platform is designed to be managed by a parent `./../../.env` but, as it feeds `./docker/.env` through GNU Make, it can be edited manually.
+
+If no GNU Make is in used, create a copy from the example `./docker/.env.example` into `./docker/.env`.
+
+The service container can be easily manage by the `./docker/docker-compose.yml`.
+
+Require environment variables at `./docker/.env` *(all are customizable)*:
+```bash
+COMPOSE_PROJECT_LEAD="myproj"                           # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
+COMPOSE_PROJECT_CNET="mp-dev"                           # <- useful for networking to connect between containers --------------------------------------------> #
+COMPOSE_PROJECT_IMGK="alpine3.23-pgsql-18.2"            # <- real main image keys to manage automations for sharing resources -------------------------------> #
+COMPOSE_PROJECT_NAME="mp-mariadb-dev"                   # <- container name to build the service - it is important to set the environment in this variable --> #
+COMPOSE_PROJECT_HOST="127.0.0.1"                        # <- machine hostname referrer - not necessary for this project -------------------------------------> #
+COMPOSE_PROJECT_PORT=7710                               # <- local machine port opened for container service ------------------------------------------------> #
+COMPOSE_PROJECT_CPUS="2.00"                             # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
+COMPOSE_PROJECT_MEM="256M"                              # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
+COMPOSE_PROJECT_SWAP="512M"                             # <- container's RAM swap space in storage executed by automation command ---------------------------> #
+MARIADB_ROOT_PASSWORD="root-strong-password"            # <- database root password -------------------------------------------------------------------------> #
+POSTGRES_DATABASE="dev_local"                           # <- database name ----------------------------------------------------------------------------------> #
+POSTGRES_USER="dev_user"                                # <- database user ----------------------------------------------------------------------------------> #
+POSTGRES_PASSWORD="dev-password"                        # <- database password ------------------------------------------------------------------------------> #
+```
+<br>
+
+### Containers Access Modes
+
 - Set the required environment values in `./docker/.env` from `./docker/.env.example` if no GNU Make will be applied.
+- Set the required configuration files by coping and updating them depending on your project requirements.
 - Container availability by building the container with `docker-composer.yml` in separated configuration layers
     - Stand-alone
         - The container is intended to be published directly and accessed from the host network, typically via `0.0.0.0:<port>`. It does not require a shared Docker network. It is a common setting for local development.
     - Inside a Custom Network
-        - The container is attached to a custom Docker network and is intended to be accessed through a reverse proxy or other containers on the same network. This is useful for isolating services while still allowing container-to-container communication. It is a recommended setting for remote deployment.
+        - The container is attached to a custom Docker network and is intended to be accessed through a reverse proxy or other containers on the same network.
+        - This network setting is useful for isolating services while still allowing container-to-container communication.
+        - It is a strongly recommended setting for remote deployment to avoid exposing the localhost port in used and protect by firewall.
+        - <b>Connect from one container to another inside the custom network, by container name and its own exposed port</b>.
     - Host-Gateway
         - The container can reach services running on the host machine using the Docker host gateway mapping. This is useful when the container must access local services on the VPS/host, while public access is still handled through a reverse proxy. It is a recommended setting for remote deployment too.
     - Public exposure is controlled by the `ports` mapping.
@@ -41,9 +81,15 @@ Containers Access Modes:
     - `127.0.0.1:<port>` means local-only access on the host and requires a reverse proxy, e.g. NGINX.
     - Docker network attachment controls container-to-container communication.
     - Host-gateway controls container-to-host communication.
+
+build: ## builds and ensures changes in the Dockerfile, build steps, or copied-in files are applied. Not --no-recreate
+	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.public.yml up --build -d
+
+network: ## starts up into an existing custom network for container-to-container communication, runnning in detached mode
+	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml up -d
 <br><br>
 
-## <a id="management"></a>Container Management
+## <a id="management"></a>Service Management
 
 To manage the container, run the GNU Make recipes
 ```bash
@@ -101,3 +147,7 @@ This project is open-sourced under the [MIT license](LICENSE).
 <br>
 
 - [GO TOP ⮙](#top-header)
+
+<div style="with:100%;height:auto;text-align:right;">
+    <img src="./../../resources/docs/images/pr-banner-long.png">
+</div>
