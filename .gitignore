@@ -50,6 +50,8 @@ lerna-debug.log*
 /resources/docs/api-rest/project/*
 !/resources/docs/api-rest/project/.gitkeep
 
+/api-grpc/*
+!/api-grpc/.gitkeep
 /api-rest/*
 !/api-rest/.gitkeep
 /application/*
