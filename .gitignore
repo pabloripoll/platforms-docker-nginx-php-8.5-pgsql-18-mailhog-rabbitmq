@@ -45,8 +45,8 @@ lerna-debug.log*
 
 /resources/automation/remote/*
 !/resources/automation/remote/.gitkeep
-/resources/database/*
-!/resources/database/.gitkeep
+/resources/databases/*
+!/resources/databases/.gitkeep
 /resources/docs/api-rest/project/*
 !/resources/docs/api-rest/project/.gitkeep
 
