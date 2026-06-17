@@ -45,7 +45,36 @@ It can be installed the most known **PHP** frameworks:
 <br>
 
 Take into account that each framework will demand its specific configuration from inside container.
+
+### ⚠️ Research & Testing Repository
+
+This repository is intended for **research and testing purposes only**. It is not suitable for production use without significant security review and modifications.
+
+### Security Considerations
+
+To maintain security best practices, we recommend never adding `Dockerfile` to your `.gitignore`. This approach helps prevent:
+
+- **Unauthorized package injection**: Malicious or unvetted packages could be added to the Dockerfile without detection during $ git status checks
+
+- **Supply chain risks**: Dependencies introduced without team visibility or approval
+
+- **Inconsistent deployment**: Preventing teams from being forced to use a single distribution, which can mask environment-specific vulnerabilities
+
+### Recommendations for Production Use
+
+Before using containers from this repository in any production environment:
+
+- **Security audit** all Dockerfile configurations
+
+- **Review all dependencies** and base images
+
+- **Implement image scanning** in your CI/CD pipeline
+
+- **Establish approval workflows** for Dockerfile changes
+
+- **Document** any modifications made for your specific use case
 <br><br>
+
 
 ## <a id="configuration"></a>Service Configuration
 
