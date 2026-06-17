@@ -43,15 +43,15 @@ lerna-debug.log*
 
 /Makefile
 
-/resources/database/*
-!/resources/database/.gitkeep
-/resources/docs/apirest/project/*
-!/resources/docs/apirest/project/.gitkeep
 /resources/automation/remote/*
 !/resources/automation/remote/.gitkeep
+/resources/database/*
+!/resources/database/.gitkeep
+/resources/docs/api-rest/project/*
+!/resources/docs/api-rest/project/.gitkeep
 
-/apirest/*
-!/apirest/.gitkeep
+/api-rest/*
+!/api-rest/.gitkeep
 /application/*
 !/application/.gitkeep
 
