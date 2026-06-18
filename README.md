@@ -16,7 +16,7 @@ This Infrastructure Platform repository is designed for back-end projects and pr
 ## Platforms for Full-Stack Project
 
 - API: [NGINX + PHP 8.5](./platforms/nginx-php-8.5/README.md)
-- Database: [Postgres 18](./platforms/pgsql-18.2/README.md)
+- Database: [Postgres 18](./platforms/pgsql-18/README.md)
 - Mail Service: [Mail Hog 1.0](./platforms/mailhog-1.0/README.md)
 - Message Broker: [RabbitMQ 4.2](./platforms/rabbitmq-4.2/README.md)
 <br><br>
@@ -217,7 +217,7 @@ Repository directories structure overview
 │   │   │   └── Dockerfile
 │   │   └── Makefile
 │   │
-│   ├── mariadb-10.11
+│   ├── postgre-18
 │   │   ├── docker
 │   │   │   ├── .env
 │   │   │   ├── docker-compose.yml
