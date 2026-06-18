@@ -8,7 +8,7 @@
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](./)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-# PHP 8.5 + MariaDB 10.11 + MailHog 1.0 + RabbitMQ 4.2
+# PHP 8.5 + Postgre 18 + MailHog 1.0 + RabbitMQ 4.2
 <br>
 
 This Infrastructure Platform repository is designed for back-end projects and provides three separate platforms:
@@ -16,7 +16,7 @@ This Infrastructure Platform repository is designed for back-end projects and pr
 ## Platforms for Full-Stack Project
 
 - API: [NGINX + PHP 8.5](./platforms/nginx-php-8.5/README.md)
-- Database: [Postgres 18.2](./platforms/pgsql-18.2/README.md)
+- Database: [Postgres 18](./platforms/pgsql-18.2/README.md)
 - Mail Service: [Mail Hog 1.0](./platforms/mailhog-1.0/README.md)
 - Message Broker: [RabbitMQ 4.2](./platforms/rabbitmq-4.2/README.md)
 <br><br>

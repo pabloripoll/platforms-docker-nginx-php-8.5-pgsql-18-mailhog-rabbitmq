@@ -2,9 +2,9 @@
 # NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
-# https://github.com/docker-library/postgres/tree/2c9ee2611e4988031a207ec97b69ab213b20b95c/18/alpine3.23
+#
 
-FROM alpine:3.23
+FROM alpine:3.24
 
 # 70 is the standard uid/gid for "postgres" in Alpine
 # https://git.alpinelinux.org/aports/tree/main/postgresql-common/postgresql-common.pre-install?h=3.22-stable
@@ -52,12 +52,12 @@ ENV LANG en_US.utf8
 RUN mkdir /docker-entrypoint-initdb.d
 
 ENV PG_MAJOR 18
-ENV PG_VERSION 18.2
-ENV PG_SHA256 5245bd1b79700d55b8e0575be0325ef61e7bbef627e6a616e4cf36ad4687be36
+ENV PG_VERSION 18.4
+ENV PG_SHA256 81a81ec695fb0c7901407defaa1d2f7973617154cf27ba74e3a7ab8e64436094
 
 ENV DOCKER_PG_LLVM_DEPS \
-		llvm19-dev \
-		clang19
+		llvm21-dev \
+		clang21
 
 RUN set -eux; \
 	\
@@ -119,9 +119,9 @@ RUN set -eux; \
 	gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
 	\
 # https://git.alpinelinux.org/aports/tree/community/postgresql15/APKBUILD?h=3.22-stable#n176 ("export LLVM_CONFIG")
-	export LLVM_CONFIG="/usr/lib/llvm19/bin/llvm-config"; \
+	export LLVM_CONFIG="/usr/lib/llvm21/bin/llvm-config"; \
 # https://git.alpinelinux.org/aports/tree/community/postgresql15/APKBUILD?h=3.22-stable#n180 ("older clang versions don't have a 'clang' exe anymore.")
-	export CLANG=clang-19; \
+	export CLANG=clang-21; \
 	\
 # configure options mostly copying Debian:
 # https://salsa.debian.org/postgresql/postgresql-common/-/blob/6e26b5107295170cc8731a3acbf13228ea15941e/server/postgresql.mk#L32
