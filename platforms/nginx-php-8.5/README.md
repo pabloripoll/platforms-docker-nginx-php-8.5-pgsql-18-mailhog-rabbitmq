@@ -19,7 +19,7 @@
 ![Composer](https://img.shields.io/badge/Composer-777BB4?style=for-the-badge&logo=composer&logoColor=white)
 
 Content:
-- Linux Alpine 3.23
+- Linux Alpine 3.24
 - Linux Debian 12 Slim *(Optional Dockerfile)*
 - PHP FPM 8.5
 - PHP Composer
@@ -90,7 +90,7 @@ Require environment variables at `./docker/.env` *(all are customizable)*:
 ```bash
 COMPOSE_PROJECT_LEAD="myproj"                           # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
 COMPOSE_PROJECT_CNET="mp-dev"                           # <- useful for networking to connect between containers --------------------------------------------> #
-COMPOSE_PROJECT_IMGK="alpine3.21-nginx1.26-php8.5"      # <- real main image keys to manage automations for sharing resources -------------------------------> #
+COMPOSE_PROJECT_IMGK="alpine-3.24-nginx-php8.5"         # <- real main image keys to manage automations for sharing resources -------------------------------> #
 COMPOSE_PROJECT_NAME="mp-apirest-dev"                   # <- container name to build the service - it is important to set the environment in this variable --> #
 COMPOSE_PROJECT_HOST="127.0.0.1"                        # <- machine hostname referrer - not necessary for this project -------------------------------------> #
 COMPOSE_PROJECT_PORT=7501                               # <- local machine port opened for container service ------------------------------------------------> #
