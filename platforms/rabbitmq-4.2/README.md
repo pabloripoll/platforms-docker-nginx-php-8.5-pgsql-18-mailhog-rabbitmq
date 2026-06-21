@@ -2,7 +2,7 @@
     <img src="./../../resources/docs/images/pr-banner-long.png">
 </div>
 
-# RABBITMQ 4.2
+# RABBITMQ 4
 
 - [./main](../../README.md)
 - [Features](#features)
@@ -18,8 +18,9 @@
 RabbitMQ is a reliable and mature messaging and streaming broker, which is easy to deploy on cloud environments, on-premises, and on your local machine.
 
 Content:
-- Linux Ubuntu 24.04
-- MariaDB 10.11
+- Linux Alpine 3.23
+- RabbitMQ 4+
+    - image: rabbitmq:4-management-alpine
 <br><br>
 
 Sources:
@@ -27,6 +28,7 @@ Sources:
 - https://github.com/rabbitmq/rabbitmq-server
 - https://hub.docker.com/_/rabbitmq/
 - https://github.com/docker-library/rabbitmq/
+- https://github.com/docker-library/official-images/blob/master/library/rabbitmq
 <br><br>
 
 ## <a id="configuration"></a>Service Configuration
