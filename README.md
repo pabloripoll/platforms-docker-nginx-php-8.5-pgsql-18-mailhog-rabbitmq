@@ -8,7 +8,7 @@
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](./)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-# NGINX + PHP 8.5 & Postgre 18+
+# NGINX + PHP 8.5 & POSTGRE 18+
 <br>
 
 This Infrastructure Platform repository is designed for back-end projects and provides three separate platforms:
@@ -16,9 +16,9 @@ This Infrastructure Platform repository is designed for back-end projects and pr
 ## Platforms for Full-Stack Project
 
 - API: [NGINX + PHP 8.5](./platforms/nginx-php-8.5/README.md)
-- Database: [Postgres 18](./platforms/pgsql-18/README.md)
-- Mail Service: [MailHog 1+](./platforms/mailhog-1/README.md)
-- Message Broker: [RabbitMQ 4+](./platforms/rabbitmq-4/README.md)
+- Database: [POSTGRE 18+](./platforms/pgsql-18/README.md)
+- Mail Service: [MAILHOG 1+](./platforms/mailhog-1/README.md)
+- Message Broker: [RABBITMQ 4+](./platforms/rabbitmq-4/README.md)
 <br><br>
 
 
