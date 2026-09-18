@@ -95,7 +95,7 @@ Despite Docker’s cross-platform compatibility, for intermediate to advanced so
 
 ## <a id="containers-networking"></a>Containers Networking - Access Modes
 
-- If no application is on `./apirest` directory *(or your custom binded directory name)* once container is up it wont provide a application and therefore NGINX will respond with an error. Copy an start-up example application or create a parking page.
+- If no application is on `./api-rest` directory *(or your custom binded directory name)* once container is up it wont provide a application and therefore NGINX will respond with an error. Copy an start-up example application or create a parking page.
 
 - Each container have a directory to set the required environment values in `./docker/.env` from `./docker/.env.example` if no GNU Make will be applied.
 
@@ -135,7 +135,7 @@ Once variables set, each Docker platform container environment variables can be 
   ```bash
   $ make apirest-set
   ```
-  **Remember**: *the `./apirest` directory name is custimizable for binding between the container and local machine.*
+  **Remember**: *the `./api-rest` directory name is custimizable for binding between the container and local machine.*
 
 - Set up the database container
   ```bash
@@ -205,7 +205,7 @@ $ yes | make apirest-destroy db-destroy mailer-destroy broker-destroy
 Repository directories structure overview
 ```sh
 .
-├── apirest                     # detached repository
+├── api-rest                    # detached repository
 │   ├── src
 │   ├── .env
 │   ├── vendor
@@ -245,7 +245,7 @@ Repository directories structure overview
 │   ├── automation
 │   │   ├── local
 │   │   │   ├── Makefile        # root ./
-│   │   │   └── Makefile.child  # this goes inside ./apirest
+│   │   │   └── Makefile.child  # this goes inside ./api-rest
 │   │   └── remote
 │   ├── databases
 │   │   ├── example-init.sql
@@ -265,12 +265,12 @@ Set up platforms
 
 ### Managing the `apirest` Directory: Submodule vs Detached Repository
 
-To remove the `./apirest` directory with the default installation content and install your desired repository inside it, there are two alternatives for managing both the platform and apirest repositories independently:
+To remove the `./api-rest` directory with the default installation content and install your desired repository inside it, there are two alternatives for managing both the platform and apirest repositories independently:
 
 Here’s a step-by-step guide for using this Platform repository along with your own REST API repository:
 
-- Remove the existing `./apirest` directory contents from local and from git cache
-- Install your desired repository inside `./apirest`
+- Remove the existing `./api-rest` directory contents from local and from git cache
+- Install your desired repository inside `./api-rest`
 - Choose between Git submodule and detached repository approaches
 
 #### 1. **GIT Detached Repository (Recommended)**
@@ -287,10 +287,10 @@ Here’s a step-by-step guide for using this Platform repository along with your
 
 - Clone the desired repository as a detached repository:
   ```bash
-  $ git clone git@[vcs]:[account]/[repository].git ./apirest
+  $ git clone git@[vcs]:[account]/[repository].git ./api-rest
   ```
 
-- The `./apirest` directory is now an **independent repository**, not tracked as a submodule in your main repo. You can use `git` commands freely inside `apirest` from anywhere.
+- The `./api-rest` directory is now an **independent repository**, not tracked as a submodule in your main repo. You can use `git` commands freely inside `apirest` from anywhere.
 <br>
 
 #### 2. **GIT Sub-module**
@@ -299,20 +299,20 @@ Here’s a step-by-step guide for using this Platform repository along with your
 
 - Remove `apirest` from local and git cache:
   ```bash
-  $ rm -rfv ./apirest/* ./apirest/.[!.]*$
+  $ rm -rfv ./api-rest/* ./api-rest/.[!.]*$
   $ git rm -r --cached apirest
   $ git commit -m "maint: apirest directory and its default installation removed"
   ```
 
 - Add the desired repository as a submodule:
   ```bash
-  $ git submodule add git@[vcs]:[account]/[repository].git ./apirest
+  $ git submodule add git@[vcs]:[account]/[repository].git ./api-rest
   $ git commit -m "maint: apirest as a git submodule added"
   ```
 
 - To update submodule contents:
   ```bash
-  $ cd ./apirest
+  $ cd ./api-rest
   $ git pull origin main  # or desired branch
   ```
 
@@ -328,7 +328,7 @@ Here’s a step-by-step guide for using this Platform repository along with your
 | Submodule        | Tracked by main  | Inside container         | Main repo controls webapp version|
 | Detached (rec.)  | Fully independent| Local or container       | Maximum flexibility              |
 
-> **Note**: After new project cloned inside `./apirest`, consider adding `./apirest/.gitkeep` in it to prevent accidental tracking *(especially for detached repository)*.
+> **Note**: After new project cloned inside `./api-rest`, consider adding `./api-rest/.gitkeep` in it to prevent accidental tracking *(especially for detached repository)*.
 <br><br>
 
 <br>
