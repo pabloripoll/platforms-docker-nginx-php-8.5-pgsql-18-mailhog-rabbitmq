@@ -25,10 +25,8 @@ This Infrastructure Platform repository is designed for back-end projects and pr
 ## Index
 
 - [Repository Objetives](#repository-objetives)
-- [Requirements](#requirements)
+- [Specifications](#specifications)
 - [Containers Networking](#container-networking)
-- [Requirements](#requirements)
-- [Containers Networking](containers-networking)
 - [Platforms Settings](#platforms-setup)
 - [Platform Start Up](#platforms-startup)
 - [Using this Repository for Custom Project](#platform-usage)
@@ -71,26 +69,66 @@ By leveraging Platform Engineering principles, this project reduces cognitive lo
 - [What is Platform engineering? - Github](https://github.com/resources/articles/what-is-platform-engineering)
 <br><br>
 
-## <a id="requirements"></a>Requirements
+## <a id="specifications"></a>Specifications
+
+### Operate Systems
 
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![MacOS](https://img.shields.io/badge/MacOS-f0f0f0?logo=apple&logoColor=black&style=for-the-badge)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![Windows WSL2](https://img.shields.io/badge/Windows-WSL2-4E9A06?style=for-the-badge&logo=windows&logoColor=white)
-![MacOS](https://img.shields.io/badge/MacOS-f0f0f0?logo=apple&logoColor=black&style=for-the-badge)
-![gnu](https://img.shields.io/badge/gnu-%23A42E2B.svg?style=for-the-badge&logo=gnu&logoColor=white)
+<br>
+
+| Dev machine   | Machine's minimum characteristics to run this repository                                      |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| CPU           | Linux *(x64 - x86)* /  MacOS Intel *(x64 - x86)* from M1 to M5                                |
+| RAM           | Depending of the container/s requirements at least 1 GB minimum.                              |
+| DISK          | 1 GB *(though is much less, its usage could be incremented depending on the project usage)*.  |
+
+- On Windows, it is recommended to use Windows Subsystem for Linux (WSL 2) or Hyper-V.
+
+### Platform Engine technology requirement
+
+![GNU](https://img.shields.io/badge/gnu-%23A42E2B.svg?style=for-the-badge&logo=gnu&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Podman](https://img.shields.io/badge/-Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white)
+
+### GNU Make
+
+Local machine should have installed GNU Make to manage automated commands from root directory. Otherwise, all commands will need to be executed manually and in their respective directory.
+
+### Docker or Podman?
+
+The magic happens because modern Podman builds natively include the podman compose subcommand. It intercepts your standard, unmodified multi-container docker-compose.yml blueprints and automatically translates them down to Podman specifications.
+
+Because your repository abstracts commands like `$ sudo docker compose` via the root Makefile using the variables `($(DOCKER_COMPOSE))`, the custom automation orchestration *(gmake/make recipes)* will point cleanly to Podman behind the scenes. No translation layers or custom rewrites needed.
+
+[may be requires more and better root cause explanation]
+
+### Docker
+
+[Docker Installation](https://docs.docker.com/engine/install/)
 
 Despite Docker’s cross-platform compatibility, for intermediate to advanced software development on environments other than Windows NT or macOS, automating the platform build and streamlining the process of starting feature development is crucial. This automation enables a more dynamic and efficient software development lifecycle.
 
-- Docker
-- Docker Compose
-- GNU Make *(otherwise commands must be executed manually)*
+### Podman
 
-| Dev machine   | Machine's features                                                                            |
-| ------------- | --------------------------------------------------------------------------------------------- |
-| CPU           | Linux *(x64 - x86)* /  MacOS Intel *(x64 - x86)*, or M1                                       |
-| RAM           | *(for this container)*: 128 MB minimum.                                                       |
-| DISK          | 1 GB *(though is much less, its usage could be incremented depending on the project usage)*.  |
+[Podman Documentation](https://podman.io/docs)
+
+https://podman.io/docs/installation
+
+Because macOS with cannot natively run Linux containers, there are two quick command-line commands you must run exactly once right after your brew install to initialize the engine. Open your terminal and run these commands to set up the Podman virtual machine:
+```sh
+# 1. Install Podman via Homebrew
+$ brew install podman
+
+# 2. Create the lightweight Apple Silicon Linux VM (Run once)
+$ podman machine init
+
+# 3. Fire up the Podman engine VM 
+$ podman machine start
+```
+
 <br>
 
 ## <a id="containers-networking"></a>Containers Networking - Access Modes
