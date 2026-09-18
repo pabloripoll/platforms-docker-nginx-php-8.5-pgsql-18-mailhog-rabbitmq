@@ -18,6 +18,22 @@ else
 	C_END='\033[0m'
 endif
 
+## Auto-detect container engine
+#ifneq ($(shell which podman 2>/dev/null),)
+#    ENGINE = podman
+#    COMPOSE = podman-compose
+#else
+#    ENGINE = docker
+#    COMPOSE = docker-compose
+#endif
+# --- ADD ENGINE AUTO-DETECTION OVERRIDE ---
+# If CONTAINER_ENGINE is set to podman or podman is explicitly found on Mac, drop sudo requirements
+#ifeq ($(CONTAINER_ENGINE),podman)
+#    SUDO :=
+#    DOCKER := podman
+#    DOCKER_COMPOSE := podman compose
+#endif
+
 include .env
 
 ROOT_DIR=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
