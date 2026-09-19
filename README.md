@@ -73,10 +73,10 @@ By leveraging Platform Engineering principles, this project reduces cognitive lo
 
 ### Supported Operating Systems
 
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![MacOS](https://img.shields.io/badge/MacOS-f0f0f0?logo=apple&logoColor=black&style=for-the-badge)
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![Windows WSL2](https://shields.io)
+![Linux](https://shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![MacOS](https://shields.io/badge/MacOS-f0f0f0?logo=apple&logoColor=black&style=for-the-badge)
+![Windows](https://shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![Windows WSL2](https://shields.io/badge/Windows-WSL2-4E9A06?style=for-the-badge&logo=windows&logoColor=white)
 
 * **Linux** (Native)
 * **macOS** (Intel & Apple Silicon M1–M5)
@@ -128,8 +128,8 @@ These abstractions allow the root Makefile to trigger standard shortcuts (e.g., 
 
 Multi-Engine Architecture
 
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Podman](https://shields.io)
+![Docker](https://shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Podman](https://shields.io/badge/-Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white)
 
 The magic happens because modern Podman builds natively include the podman compose subcommand. It intercepts your standard, unmodified multi-container docker-compose.yml blueprints and automatically translates them down to Podman specifications.
 
