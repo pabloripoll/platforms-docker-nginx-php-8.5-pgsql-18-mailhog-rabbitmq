@@ -126,7 +126,7 @@ These abstractions allow the root Makefile to trigger standard shortcuts (e.g., 
 
 ⚠️ **A Note on Variable Naming:** To preserve backward compatibility with previous releases, this repository retains the use of `DOCKER` and `DOCKER_COMPOSE` as variable names throughout the codebase, scripts, and automation files. Rest assured, if you set `CONTAINER_ENGINE=podman`, these variables will correctly map to your **Podman setup** behind the scenes.
 
-Multi-Engine Architecture
+## Multi-Engine Architecture
 
 ![Docker](https://shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Podman](https://shields.io/badge/-Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white)
@@ -151,14 +151,14 @@ Ensure your chosen container daemon is installed and running. If your local user
 
 Because macOS does not natively run Linux containers, both Docker and Podman spin up a background Linux Virtual Machine (VM) to host your workloads. If you choose to use Podman on macOS, execute the following steps once to initialize your engine environment:
 
-### Docker
+#### Docker
 
 Despite Docker’s cross-platform compatibility, for intermediate to advanced software development on environments other than Windows NT or macOS, automating the platform build and streamlining the process of starting feature development is crucial. This automation enables a more dynamic and efficient software development lifecycle.
 
 - [Docker Documentation](https://docs.docker.com/engine/)
 - [Docker Installation](https://docs.docker.com/engine/install/)
 
-### Podman
+#### Podman
 
 Because macOS with cannot natively run Linux containers, there are two quick command-line commands you must run exactly once right after your brew install to initialize the engine. Open your terminal and run these commands to set up the Podman virtual machine:
 ```sh
