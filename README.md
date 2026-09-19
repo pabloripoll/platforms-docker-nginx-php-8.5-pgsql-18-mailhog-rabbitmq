@@ -75,13 +75,11 @@ By leveraging Platform Engineering principles, this project reduces cognitive lo
 
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![MacOS](https://img.shields.io/badge/MacOS-f0f0f0?logo=apple&logoColor=black&style=for-the-badge)
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![Windows WSL2](https://img.shields.io/badge/Windows-WSL2-4E9A06?style=for-the-badge&logo=windows&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) ![Windows WSL2](https://img.shields.io/badge/Windows-WSL2-4E9A06?style=for-the-badge&logo=windows&logoColor=white)
 
 * **Linux** (Native)
 * **macOS** (Intel & Apple Silicon M1–M5)
 * **Windows 10 / 11** (Most recommended via WSL2 or Hyper-V)
-<br>
 
 ### Minimum Hardware Requirements
 
@@ -106,7 +104,6 @@ It is highly recommended to use **GNU Make** on local to manage automated workfl
 
 * **Recommended:** Ensure make is installed on your host system to use shortened convenience commands.
 * **Alternative:** If make is unavailable, commands must be executed manually within their respective subdirectories.
-<br>
 
 ### Environment Variables for Automation
 
@@ -127,12 +124,10 @@ DOCKER_COMPOSE=$(SUDO) $(CONTAINER_ENGINE) compose      # <- targets "docker com
 These abstractions allow the root Makefile to trigger standard shortcuts (e.g., `make up`, `make down`) seamlessly across different setups.
 
 ⚠️ **A Note on Variable Naming:** To preserve backward compatibility with previous releases, this repository retains the use of `DOCKER` and `DOCKER_COMPOSE` as variable names throughout the codebase, scripts, and automation files. Rest assured, if you set `CONTAINER_ENGINE=podman`, these variables will correctly map to your **Podman setup** behind the scenes.
-<br>
 
-### Multi-Engine Architecture
+Multi-Engine Architecture
 
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Podman](https://img.shields.io/badge/-Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![Podman](https://img.shields.io/badge/-Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white)
 
 The magic happens because modern Podman builds natively include the podman compose subcommand. It intercepts your standard, unmodified multi-container docker-compose.yml blueprints and automatically translates them down to Podman specifications.
 
@@ -143,7 +138,6 @@ This repository relies on a standard multi-container design (docker-compose.yml)
 - **Docker Native:** Runs commands through the standard dockerd daemon.
 
 - **Podman Compatibility:** Modern versions of Podman include a built-in podman compose engine. When CONTAINER_ENGINE=podman is selected, Podman intercepts the docker-compose.yml specifications and automatically translates them into a Podman native configuration. No third-party translation tools are required.
-<br>
 
 ### Platform-Specific Setup Notes
 
@@ -154,7 +148,6 @@ Ensure your chosen container daemon is installed and running. If your local user
 #### macOS
 
 Because macOS does not natively run Linux containers, both Docker and Podman spin up a background Linux Virtual Machine (VM) to host your workloads. If you choose to use Podman on macOS, execute the following steps once to initialize your engine environment:
-<br>
 
 ### Docker
 
@@ -162,7 +155,6 @@ Despite Docker’s cross-platform compatibility, for intermediate to advanced so
 
 - [Docker Documentation](https://docs.docker.com/engine/)
 - [Docker Installation](https://docs.docker.com/engine/install/)
-<br>
 
 ### Podman
 
