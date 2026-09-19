@@ -362,10 +362,10 @@ Here’s a step-by-step guide for using this Platform repository along with your
 
 - Remove `apirest` from local and git cache:
   ```bash
-  $ git rm -r --cached -- "apirest/*" ":(exclude)apirest/.gitkeep"
+  $ git rm -r --cached -- "api-rest/*" ":(exclude)api-rest/.gitkeep"
   $ git clean -fd
   $ git reset --hard
-  $ git commit -m "maint: apirest directory and its default installation removed"
+  $ git commit -m "maint: api-rest directory and its default installation removed"
   ```
 
 - Clone the desired repository as a detached repository:
