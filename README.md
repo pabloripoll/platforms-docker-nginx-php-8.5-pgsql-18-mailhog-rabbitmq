@@ -346,7 +346,7 @@ Set up platforms
 - Copy `.env.example` to `.env` and adjust settings (rest api port, database port, mail service port, container RAM usage, etc.)
 <br>
 
-### Managing the `apirest` Directory: Submodule vs Detached Repository
+### Managing the `./api-rest` Directory: Submodule vs Detached Repository
 
 To remove the `./api-rest` directory with the default installation content and install your desired repository inside it, there are two alternatives for managing both the platform and apirest repositories independently:
 
