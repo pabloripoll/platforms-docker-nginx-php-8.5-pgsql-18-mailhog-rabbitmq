@@ -25,7 +25,7 @@ This Infrastructure Platform repository is designed for back-end projects and pr
 ## Index
 
 - [Repository Objetives](#repository-objetives)
-- [Specifications](#specifications)
+- [Orchestration & Platform Specifics](#orchestration)
 - [Containers Networking](#container-networking)
 - [Platforms Settings](#platforms-setup)
 - [Platform Start Up](#platforms-startup)
@@ -69,53 +69,102 @@ By leveraging Platform Engineering principles, this project reduces cognitive lo
 - [What is Platform engineering? - Github](https://github.com/resources/articles/what-is-platform-engineering)
 <br><br>
 
-## <a id="specifications"></a>Specifications
+## <a id="orchestration"></a>Orchestration & Platform Specifics
 
-### Operate Systems
+### Supported Operating Systems
 
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![MacOS](https://img.shields.io/badge/MacOS-f0f0f0?logo=apple&logoColor=black&style=for-the-badge)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![Windows WSL2](https://img.shields.io/badge/Windows-WSL2-4E9A06?style=for-the-badge&logo=windows&logoColor=white)
+
+* **Linux** (Native)
+* **macOS** (Intel & Apple Silicon M1–M5)
+* **Windows 10 / 11** (Most recommended via WSL2 or Hyper-V)
 <br>
 
-| Dev machine   | Machine's minimum characteristics to run this repository                                      |
-| ------------- | --------------------------------------------------------------------------------------------- |
-| CPU           | Linux *(x64 - x86)* /  MacOS Intel *(x64 - x86)* from M1 to M5                                |
-| RAM           | Depending of the container/s requirements at least 1 GB minimum.                              |
-| DISK          | 1 GB *(though is much less, its usage could be incremented depending on the project usage)*.  |
+### Minimum Hardware Requirements
 
-- On Windows, it is recommended to use Windows Subsystem for Linux (WSL 2) or Hyper-V.
+By default, local development environments run a minimal stack and do not process live production traffic. Therefore, resource utilization remains low. 
 
-### Platform Engine technology requirement
+| Machine       | Machine's minimum characteristics to run this repository                                          |
+| ------------- | ------------------------------------------------------------------------------------------------- |
+| CPU           | x86_64 / ARM64 - Supports modern Intel, AMD, and Apple Silicon chips.                             |
+| RAM           | 1 GB - Scale up if compiling memory-heavy stacks (e.g., Java, Angular).                           |
+| DISK          | 5 GB available space - Actual usage depends on downloaded container images and project cache.     |
+
+💡 **Tip 1 - Resource Management:** Properly restricting container CPU and memory allocations prevents resource starvation on your local host machine and closely mirrors production security best practices.
+
+💡 **Tip 2 - Environment Separation:** The automation commands provided in this repository are optimized for local development. In production or staging environments, standard cloud infrastructure designs typically distribute these platforms across separate VPS or cloud instances rather than running them all via a single local orchestration layer. To see how these components are isolated for production, you can find the individual single-service platforms listed under my [GitHub Repositories Profile](https://github.com/pabloripoll?tab=repositories).
+<br>
+
+### Task Automation (GNU Make)
 
 ![GNU](https://img.shields.io/badge/gnu-%23A42E2B.svg?style=for-the-badge&logo=gnu&logoColor=white)
+
+It is highly recommended to use **GNU Make** on local to manage automated workflows from the root directory. On remote, you most probably choose bash script with or without a instance personalized Makefile.
+
+* **Recommended:** Ensure make is installed on your host system to use shortened convenience commands.
+* **Alternative:** If make is unavailable, commands must be executed manually within their respective subdirectories.
+<br>
+
+### Environment Variables for Automation
+
+The automation layer dynamically adapts commands using variables defined in your root `.env` file. These variables control how your environment invokes the runtime engine.
+
+This repository supports local development using either **Docker** or **Podman**. You can configure your preferred container engine in your root `.env` file *(copied from `.env.example`)*: 
+
+```sh
+# ENGINE DEFINITION (docker or podman)
+CONTAINER_ENGINE=docker                                 # <- must define container engine system ------------------------------------------------------------> #
+
+# CONTAINER VARIABLES FOR AUTOMATION
+SUDO=sudo                                               # <- user priviledge for running engine commands, left blank if for running without sudo ------------> #
+DOCKER=$(SUDO) $(CONTAINER_ENGINE)                      # <- engine core command generator ------------------------------------------------------------------> #
+DOCKER_COMPOSE=$(SUDO) $(CONTAINER_ENGINE) compose      # <- targets "docker compose" or "podman compose" ---------------------------------------------------> #
+```
+
+These abstractions allow the root Makefile to trigger standard shortcuts (e.g., `make up`, `make down`) seamlessly across different setups.
+
+⚠️ **A Note on Variable Naming:** To preserve backward compatibility with previous releases, this repository retains the use of `DOCKER` and `DOCKER_COMPOSE` as variable names throughout the codebase, scripts, and automation files. Rest assured, if you set `CONTAINER_ENGINE=podman`, these variables will correctly map to your **Podman setup** behind the scenes.
+<br>
+
+### Multi-Engine Architecture
+
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Podman](https://img.shields.io/badge/-Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white)
 
-### GNU Make
-
-Local machine should have installed GNU Make to manage automated commands from root directory. Otherwise, all commands will need to be executed manually and in their respective directory.
-
-### Docker or Podman?
-
 The magic happens because modern Podman builds natively include the podman compose subcommand. It intercepts your standard, unmodified multi-container docker-compose.yml blueprints and automatically translates them down to Podman specifications.
 
-Because your repository abstracts commands like `$ sudo docker compose` via the root Makefile using the variables `($(DOCKER_COMPOSE))`, the custom automation orchestration *(gmake/make recipes)* will point cleanly to Podman behind the scenes. No translation layers or custom rewrites needed.
+Because this repository abstracts commands like `$ sudo docker compose up -d` via the root `Makefile` using the environment variables like `($(DOCKER_COMPOSE))`, the custom automation orchestration *(gmake/make recipes)* will point cleanly to **Podman** behind the scenes. No translation layers or custom rewrites needed.
 
-[may be requires more and better root cause explanation]
+This repository relies on a standard multi-container design (docker-compose.yml). You do not need to maintain multiple orchestration blueprints to switch engines:
+
+- **Docker Native:** Runs commands through the standard dockerd daemon.
+
+- **Podman Compatibility:** Modern versions of Podman include a built-in podman compose engine. When CONTAINER_ENGINE=podman is selected, Podman intercepts the docker-compose.yml specifications and automatically translates them into a Podman native configuration. No third-party translation tools are required.
+<br>
+
+### Platform-Specific Setup Notes
+
+#### Linux & Windows (WSL2)
+
+Ensure your chosen container daemon is installed and running. If your local user account belongs to the docker or podman security group (allowing rootless container operations), you should set SUDO= to a blank value in your .env file.
+
+#### macOS
+
+Because macOS does not natively run Linux containers, both Docker and Podman spin up a background Linux Virtual Machine (VM) to host your workloads. If you choose to use Podman on macOS, execute the following steps once to initialize your engine environment:
+<br>
 
 ### Docker
 
-[Docker Installation](https://docs.docker.com/engine/install/)
-
 Despite Docker’s cross-platform compatibility, for intermediate to advanced software development on environments other than Windows NT or macOS, automating the platform build and streamlining the process of starting feature development is crucial. This automation enables a more dynamic and efficient software development lifecycle.
 
+- [Docker Documentation](https://docs.docker.com/engine/)
+- [Docker Installation](https://docs.docker.com/engine/install/)
+<br>
+
 ### Podman
-
-[Podman Documentation](https://podman.io/docs)
-
-https://podman.io/docs/installation
 
 Because macOS with cannot natively run Linux containers, there are two quick command-line commands you must run exactly once right after your brew install to initialize the engine. Open your terminal and run these commands to set up the Podman virtual machine:
 ```sh
@@ -125,11 +174,13 @@ $ brew install podman
 # 2. Create the lightweight Apple Silicon Linux VM (Run once)
 $ podman machine init
 
-# 3. Fire up the Podman engine VM 
+# 3. Fire up the Podman engine VM
 $ podman machine start
 ```
 
-<br>
+- [Podman Documentation](https://podman.io/docs)
+- [Podman Installation](https://podman.io/docs/installation)
+<br><br>
 
 ## <a id="containers-networking"></a>Containers Networking - Access Modes
 
