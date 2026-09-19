@@ -283,7 +283,7 @@ $ yes | make apirest-destroy db-destroy mailer-destroy broker-destroy
 ```
 <br><br>
 
-## <a id="platform-usage"></a>Use this Platform Repository for your own REST API repository
+## <a id="platform-usage"></a>Use this Platform Repository for your own projects
 
 Repository directories structure overview
 ```sh
