@@ -303,7 +303,7 @@ Repository directories structure overview
 │   │   │   └── Dockerfile
 │   │   └── Makefile
 │   │
-│   ├── postgre-18
+│   ├── pgsql-18
 │   │   ├── docker
 │   │   │   ├── .env
 │   │   │   ├── docker-compose.yml
