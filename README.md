@@ -283,7 +283,7 @@ $ sudo docker ps
 ```
 <br>
 
-Despite each container can be stop or restarted, they can be stop and destroy both containers simultaneously to clean up locally from Docker generated cache, without affecting other containers running on the same machine.
+Despite each container can be stop or restarted, they can be stopped and destroyed both containers simultaneously to clean up Docker generated cache, without affecting other containers running on the same machine.
 ```bash
 $ yes | make apirest-destroy db-destroy mailer-destroy broker-destroy
 ```
