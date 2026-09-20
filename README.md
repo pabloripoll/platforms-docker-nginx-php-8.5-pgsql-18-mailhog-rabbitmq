@@ -31,8 +31,8 @@ By decoupling the runtime services, this boilerplate ensures your primary applic
 - [Repository Objectives](#repository-objectives)
 - [Orchestration & Platform Specifics](#orchestration)
 - [Containers Networking](#container-networking)
-- [Platforms Settings](#platforms-setup)
-- [Platform Start Up](#platforms-startup)
+- [Platforms Set Up](#platforms-setup)
+- [Platforms Start Up](#platforms-startup)
 - [Using this Repository for Custom Project](#platform-usage)
 <br><br>
 
@@ -205,16 +205,18 @@ $ podman machine start
     - Host-gateway controls container-to-host communication.
 <br><br>
 
-## <a id="platforms-setup"></a>Configure Platforms
+## <a id="platforms-setup"></a>Platforms Set Up
 
-Create the root `./.env` file from the [./.env.example](./.env.example) and follow its description to configure the platforms. Each variable has its own explanation.
+Create the root `./.env` file from the [./.env.example](./.env.example) and follow its description to configure the platforms required environment variables.
 
 Also create the root `./Makefile` file from [./resources/automation/local/Makefile](./resources/automation/local/Makefile) so it will be easy to manage the platforms from one location in the project.
 
-Each recipe has its own explanation or execute `make help` command to see them all. This streamlines the workflow for managing containers with mnemonic recipe names, avoiding the effort of remembering and typing each bash command line:
+Each recipe from this root `Makefile` has its own action description and can be read to remember on terminal by executing `make help` command to see them all. This streamlines the workflow for managing containers with mnemonic recipe names, avoiding the effort of remembering and typing each bash command line:
 ```bash
 $ make help
 ```
+
+⚠️ **Platforms Set Up:** each platform has their on configuration file, most specifically the core platforms. Read the setting guidance for each platform before start up the containers.
 
 Once variables set, each Docker platform container environment variables can be set by GNU Make recipes placed in the root of this repository:
 
@@ -238,9 +240,9 @@ Once variables set, each Docker platform container environment variables can be 
   ```bash
   $ make broker-set
   ```
-<br>
+<br><br>
 
-## <a id="platforms-startup"></a>Start Up Platforms
+## <a id="platforms-startup"></a>Platforms Start Up
 
 Create and start up the API container
 ```bash
