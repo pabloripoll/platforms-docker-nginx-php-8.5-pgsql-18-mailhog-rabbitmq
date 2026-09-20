@@ -31,8 +31,8 @@ By decoupling the runtime services, this boilerplate ensures your primary applic
 - [Repository Objectives](#repository-objectives)
 - [Orchestration & Platform Specifics](#orchestration)
 - [Containers Networking](#container-networking)
-- [Platforms Set Up](#platforms-setup)
-- [Platforms Start Up](#platforms-startup)
+- [Platforms Setup](#platforms-setup)
+- [Platforms Startup](#platforms-startup)
 - [Using this Repository for Custom Project](#platform-usage)
 <br><br>
 
@@ -205,7 +205,7 @@ $ podman machine start
     - Host-gateway controls container-to-host communication.
 <br><br>
 
-## <a id="platforms-setup"></a>Platforms Set Up
+## <a id="platforms-setup"></a>Platforms Setup
 
 Create the root `./.env` file from the [./.env.example](./.env.example) and follow its description to configure the platforms required environment variables.
 
@@ -216,35 +216,35 @@ Each recipe from this root `Makefile` has its own action description and can be 
 $ make help
 ```
 
-⚠️ **Platforms Set Up:** each platform has their on configuration file, most specifically the core platforms. Read the setting guidance for each platform before start up the containers.
+⚠️ **Important Setup Requirement:** Core platform components require independent configuration prior to initialization. Ensure you review the specific setup guidance in each sub-directory's `README.md` before starting up the container orchestration layer.
 
-Once variables set, each Docker platform container environment variables can be set by GNU Make recipes placed in the root of this repository:
+Once variables are set, each Docker platform container environment variables can be set by GNU Make recipes placed in the root of this repository:
 
-- Set up the API container
+- Setup the API container
   ```bash
   $ make apirest-set
   ```
   **Remember**: *the `./api-rest` directory name is custimizable for binding between the container and local machine.*
 
-- Set up the database container
+- Setup the database container
   ```bash
   $ make db-set
   ```
 
-- Set up the mail service container
+- Setup the mail service container
   ```bash
   $ make mailer-set
   ```
 
-- Set up the message broker service container
+- Setup the message broker service container
   ```bash
   $ make broker-set
   ```
 <br><br>
 
-## <a id="platforms-startup"></a>Platforms Start Up
+## <a id="platforms-startup"></a>Platforms Startup
 
-Create and start up the API container
+Create and startup the API container
 ```bash
 $ make apirest-create
 ```
@@ -253,7 +253,7 @@ $ make apirest-create
 Testing container visiting localhost with the assigned port, but with no database connection established or failed because of wrong configuration
 <br>
 
-Create and start up the database container
+Create and startup the database container
 ```bash
 $ make db-create
 ```
@@ -262,19 +262,19 @@ $ make db-create
 Once database service is up and running, status message will show successful connection
 <br>
 
-Create and start up the mail service container
+Create and startup the mail service container
 ```bash
 $ make mailer-create
 ```
 <br>
 
-Create and start up the message broker service container
+Create and startup the message broker service container
 ```bash
 $ make broker-create
 ```
 <br>
 
-Test mail service container by clicking "Direct Test MAIL" link
+Test mail sandobox service container by clicking "Direct Test MAIL" link
 <br>
 
 Docker information of both cointer up and running
