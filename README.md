@@ -123,7 +123,7 @@ CONTAINER_ENGINE=docker                                 # <- must define contain
 # CONTAINER VARIABLES FOR AUTOMATION
 SUDO=sudo                                               # <- user priviledge for running engine commands, left blank if for running without sudo ------------> #
 DOCKER=$(SUDO) $(CONTAINER_ENGINE)                      # <- engine core command generator ------------------------------------------------------------------> #
-DOCKER_COMPOSE=$(SUDO) $(CONTAINER_ENGINE) compose      # <- targets "docker compose" or "podman compose" ---------------------------------------------------> #
+DOCKER_COMPOSE=$(SUDO) $(CONTAINER_ENGINE) compose      # <- targets "docker compose" / "docker-compose" or "podman compose" --------------------------------> #
 ```
 
 These abstractions allow the root Makefile to trigger standard shortcuts (e.g., `make up`, `make down`) seamlessly across different setups.
