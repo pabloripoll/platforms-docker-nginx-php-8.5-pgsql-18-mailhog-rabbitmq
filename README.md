@@ -8,23 +8,27 @@
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](./)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-# NGINX + PHP 8.5 & POSTGRE 18+
+# NGINX + PHP 8.5 & POSTGRESQL 18+
 <br>
 
-This Infrastructure Platform repository is designed for back-end projects and provides three separate platforms:
+This repository serves as a multi-engine containerized infrastructure boilerplate designed to streamline local development and remote services for back-end or front-end applications. It provides a set of pre-configured, loosely coupled platform services optimized to work interchangeably with either Docker or Podman.
 
-## Platforms for Full-Stack Project
+It abstracts complex orchestration down to simple automation layers, allowing you to instantly spin up independent, ready-to-scale platform components.
+
+By decoupling the runtime services, this boilerplate ensures your primary application layer connects seamlessly to its supporting infrastructure components via standard local orchestration.
+
+## Included Platform Services
 
 - API: [NGINX + PHP 8.5](./platforms/nginx-php-8.5/README.md)
-- Database: [POSTGRE 18+](./platforms/pgsql-18/README.md)
-- Mail Service: [MAILHOG 1+](./platforms/mailhog-1/README.md)
+- Database: [POSTGRESQL 18+](./platforms/pgsql-18/README.md)
+- Mail Sandbox: [MAILHOG 1+](./platforms/mailhog-1/README.md)
 - Message Broker: [RABBITMQ 4+](./platforms/rabbitmq-4/README.md)
 <br><br>
 
 
 ## Index
 
-- [Repository Objetives](#repository-objetives)
+- [Repository Objectives](#repository-objectives)
 - [Orchestration & Platform Specifics](#orchestration)
 - [Containers Networking](#container-networking)
 - [Platforms Settings](#platforms-setup)
@@ -32,7 +36,7 @@ This Infrastructure Platform repository is designed for back-end projects and pr
 - [Using this Repository for Custom Project](#platform-usage)
 <br><br>
 
-## <a id="repository-objetives"></a>Repositoy Objetives
+## <a id="repository-objectives"></a>Repositoy Objectives
 
 ### Key principles and goals
 
