@@ -352,9 +352,9 @@ Set up platforms
 - Copy `.env.example` to `.env` and adjust settings (rest api port, database port, mail service port, container RAM usage, etc.)
 <br>
 
-### Managing the `./api-rest` Directory: Submodule vs Detached Repository
+### Managing the `./api-rest` directory: Submodule vs Detached Repository
 
-To remove the `./api-rest` directory with the default installation content and install your desired repository inside it, there are two alternatives for managing both the platform and apirest repositories independently:
+To remove the `./api-rest` the default installation content and install your desired repository inside it, there are two alternatives for managing both the platform and apirest repositories independently:
 
 Here’s a step-by-step guide for using this Platform repository along with your own REST API repository:
 
@@ -366,7 +366,7 @@ Here’s a step-by-step guide for using this Platform repository along with your
 
 > Git commands can be executed **whether from inside the container or on the local machine**.
 
-- Remove `apirest` from local and git cache:
+- Remove `./api-rest` from local and git cache:
   ```bash
   $ git rm -r --cached -- "api-rest/*" ":(exclude)api-rest/.gitkeep"
   $ git clean -fd
@@ -379,14 +379,14 @@ Here’s a step-by-step guide for using this Platform repository along with your
   $ git clone git@[vcs]:[account]/[repository].git ./api-rest
   ```
 
-- The `./api-rest` directory is now an **independent repository**, not tracked as a submodule in your main repo. You can use `git` commands freely inside `apirest` from anywhere.
+- The `./api-rest` directory is now an **independent repository**, not tracked as a submodule in your main repo. You can use `git` commands freely inside `./api-rest` directory from anywhere.
 <br>
 
 #### 2. **GIT Sub-module**
 
 > Git commands can be executed **only from inside the container**.
 
-- Remove `apirest` from local and git cache:
+- Remove `./api-rest` content from local and git cache:
   ```bash
   $ rm -rfv ./api-rest/* ./api-rest/.[!.]*$
   $ git rm -r --cached apirest
